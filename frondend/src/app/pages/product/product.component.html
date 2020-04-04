@@ -8,29 +8,21 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-3" *ngFor="let item of ProductData">
                     <div class="card" style="margin-bottom: 20px; height: auto;">
-                        <img src="/images/hjghj" class="card-img-top mx-auto" style="height: 150px; width: 150px;display: block;" alt="">
+                        <img src="{{item['img_url']}}" class="card-img-top mx-auto" style="height: 150px; width: 150px;display: block;" alt="{{item['img_url']}}">
                         <div class="card-body">
-                            <a href="">
-                                <h6 class="card-title">kaloe</h6>
+                            <a href="#">
+                                <h6 class="card-title">{{ item['name'] }}</h6>
                             </a>
-                            <p>$50</p>
-                            <form action="" method="POST">
-                                <input type="hidden" value="id" id="id" name="id">
-                                <input type="hidden" value="name" id="name" name="name">
-                                <input type="hidden" value="price" id="price" name="price">
-                                <input type="hidden" value="image_path" id="img" name="img">
-                                <input type="hidden" value="slug" id="slug" name="slug">
-                                <input type="hidden" value="1" id="quantity" name="quantity">
-                                <div class="card-footer" style="background-color: white;">
-                                    <div class="row">
-                                        <button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                            <p>${{ item['price'] }}</p>
+                            <div class="card-footer" style="background-color: white;">
+                                <div class="row">
+                                    <button type="button" class="btn btn-secondary btn-sm" (click)="addToCart(item)" class="tooltip-test" title="add to cart">
                                                 <i class="fa fa-shopping-cart"></i> add to cart
-                                            </button>
-                                    </div>
+                                         </button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

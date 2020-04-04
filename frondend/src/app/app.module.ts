@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { TopnavComponent } from './layouts/topnav/topnav.component';
 import { CartdropComponent } from './pages/cart/cartdrop/cartdrop.component';
-
+import { StorageServiceModule } from 'angular-webstorage-service';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent, FooterComponent, TopnavComponent, CartdropComponent
@@ -14,7 +15,9 @@ import { CartdropComponent } from './pages/cart/cartdrop/cartdrop.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    StorageServiceModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

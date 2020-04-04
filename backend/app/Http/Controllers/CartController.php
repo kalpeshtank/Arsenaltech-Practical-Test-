@@ -9,12 +9,21 @@ class CartController extends Controller {
 
     public function shop() {
         $products = Product::all();
-        sendSuccess($products, 'Success');
+        foreach ($products as &$item) {
+            $item->img_url = asset('storage/images/' . $item->image_path);
+        }
+        return sendSuccess($products, 'Success');
+    }
+
+    public function CartCount() {
+        $cartCollection = [];
+        $cartCollection['count'] = \Cart::getTotalQuantity();
+        return sendSuccess($cartCollection, 'Success');
     }
 
     public function cart() {
         $cartCollection = \Cart::getContent();
-        sendSuccess($cartCollection, 'Success');
+        return sendSuccess($cartCollection, 'Success');
     }
 
     public function add(Request$request) {
@@ -28,12 +37,14 @@ class CartController extends Controller {
                 'slug' => $request->slug
             )
         ));
-        sendSuccess([], 'Item is Added to Cart!');
+        $cartCollection['count'] = \Cart::getTotalQuantity();
+        $cartCollection['cart'] = \Cart::getContent();
+        return sendSuccess($cartCollection, 'Item is Added to Cart!');
     }
 
     public function remove(Request $request) {
         \Cart::remove($request->id);
-        sendSuccess([], 'Item is removed!');
+        return sendSuccess([], 'Item is removed!');
     }
 
     public function update(Request $request) {
@@ -44,12 +55,12 @@ class CartController extends Controller {
                         'value' => $request->quantity
                     ),
         ));
-        sendSuccess([], 'Cart is Updated!');
+        return sendSuccess([], 'Cart is Updated!');
     }
 
     public function clear() {
         \Cart::clear();
-        sendSuccess([], 'Car is cleared!');
+        return sendSuccess([], 'Car is cleared!');
     }
 
 }
