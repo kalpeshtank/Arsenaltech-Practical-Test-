@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._mainAPiServiceService.getDataAPI('products?user_id=' + this.storage.get('user_id')).subscribe(res => {
+    this._mainAPiServiceService.getDataAPI('products').subscribe(res => {
       if (res.status == 200) {
         this.ProductData = res.data;
       }
@@ -34,6 +34,7 @@ export class ProductComponent implements OnInit {
     });
   }
   addToCart(data: any) {
+    this.successMsg = "";
     let TemCartData = this.CartData;
     let qty = 1;
     const indexData = this.CartData.findIndex(cart => cart.id === data.id);
@@ -43,6 +44,7 @@ export class ProductComponent implements OnInit {
     }
     // this.CartData = TemCartData;
     data.quantity = qty;
+    data.user_id = this.storage.get('user_id');
     this.CartData.push(data);
     this.behaviorService.setCartData(this.CartData);
     this._mainAPiServiceService.SetDataAPI(data, 'add').subscribe(res => {

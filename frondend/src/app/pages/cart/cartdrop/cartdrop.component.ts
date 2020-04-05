@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { BehaviorService } from 'src/app/_services/behavior.service';
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
+import { MainApiService } from 'src/app/_services/main-api.service';
 
 @Component({
   selector: 'app-cartdrop',
@@ -10,7 +11,9 @@ import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 export class CartdropComponent implements OnInit {
   CartData: any = [];
   item_Total: any = 0;
-  constructor(private behaviorService: BehaviorService,
+  constructor(
+    private _mainAPiServiceService: MainApiService,
+    private behaviorService: BehaviorService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService) {
     this.behaviorService.cartData$.subscribe(result => {
       if (result) {
@@ -33,5 +36,10 @@ export class CartdropComponent implements OnInit {
     this.behaviorService.setCartData([]);
     this.item_Total = 0;
     this.CartData = [];
+    this._mainAPiServiceService.SetDataAPI({ 'user_id': this.storage.get('user_id') }, 'clear').subscribe(res => {
+      if (res.status == 200) { }
+    }, err => {
+      console.log(err);
+    });
   }
 }

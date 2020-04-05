@@ -20,10 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/products', 'CartController@shop')->name('shop');
-Route::get('/cart-count', 'CartController@CartCount')->name('shop');
-Route::get('/cart', 'CartController@cart')->name('cart.index');
-Route::post('/add', 'CartController@add')->name('cart.store');
-Route::post('/update', 'CartController@update')->name('cart.update');
-Route::post('/remove', 'CartController@remove')->name('cart.remove');
-Route::post('/clear', 'CartController@clear')->name('cart.clear');
+Route::get('/products', 'CartController@products');
+Route::post('/cart', 'CartController@cart');
+Route::post('/add', 'CartController@add');
+Route::post('/remove', 'CartController@remove');
+Route::post('/clear', 'CartController@clear');
