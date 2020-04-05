@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MainApiService } from 'src/app/_services/main-api.service';
 import { BehaviorService } from 'src/app/_services/behavior.service';
 
 @Component({
@@ -9,9 +8,8 @@ import { BehaviorService } from 'src/app/_services/behavior.service';
 })
 export class TopnavComponent implements OnInit {
   CartData: any = [];
-  constructor(private _mainAPiServiceService: MainApiService, private behaviorService: BehaviorService) {
+  constructor(private behaviorService: BehaviorService) {
     this.behaviorService.cartData$.subscribe(result => {
-      console.log(result);
       if (result) {
         this.CartData = result;
       }

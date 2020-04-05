@@ -1,0 +1,5 @@
+    .max-height {
+        max-height: 250px;
+        position: relative;
+        overflow: auto;
+    }

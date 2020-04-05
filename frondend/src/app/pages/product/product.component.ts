@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MainApiService } from 'src/app/_services/main-api.service';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import { ToastrService } from 'ngx-toastr';
 import { BehaviorService } from 'src/app/_services/behavior.service';
 
 @Component({
@@ -12,11 +11,11 @@ import { BehaviorService } from 'src/app/_services/behavior.service';
 export class ProductComponent implements OnInit {
   ProductData: any = [];
   CartData: any = [];
+  successMsg: any;
   constructor(
     private _mainAPiServiceService: MainApiService,
     private behaviorService: BehaviorService,
     @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-    private toastr: ToastrService
   ) {
     this.behaviorService.cartData$.subscribe(result => {
       if (result) {
@@ -31,19 +30,27 @@ export class ProductComponent implements OnInit {
         this.ProductData = res.data;
       }
     }, err => {
-      this.toastr.error(err);
+      console.log(err);
     });
   }
   addToCart(data: any) {
-    data.quantity = 1;
+    let TemCartData = this.CartData;
+    let qty = 1;
+    const indexData = this.CartData.findIndex(cart => cart.id === data.id);
+    if (indexData > -1) {
+      qty += TemCartData[indexData].quantity;
+      TemCartData.splice(indexData, 1);
+    }
+    // this.CartData = TemCartData;
+    data.quantity = qty;
     this.CartData.push(data);
     this.behaviorService.setCartData(this.CartData);
     this._mainAPiServiceService.SetDataAPI(data, 'add').subscribe(res => {
       if (res.status == 200) {
-        this.toastr.success(res.message);
+        this.successMsg = res.message;
       }
     }, err => {
-      this.toastr.error(err);
+      console.log(err);
     });
   }
 
